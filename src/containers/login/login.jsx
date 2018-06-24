@@ -5,8 +5,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavBar,WingBlank,List,InputItem,WhiteSpace,Button} from 'antd-mobile'
 import Logo from '../../components/logo/logo'
+import {Redirect} from 'react-router-dom'
+import {login} from '../../redux/actions'
 
-const ListItem = List.Item
 
 class Login extends Component {
 
@@ -22,31 +23,37 @@ class Login extends Component {
         })
     }
 
-    register = () => {
-        this.props.history.push('/main')
-        console.log(this.state)
+    toRegister = () => {
+        this.props.history.push('/register')
     }
 
-    goLogin = () => {
-        this.props.history.replace('/register')
+    Login = () => {
+       const {username,password} = this.state
+        this.props.Login(username,password)
     }
 
 
     render() {
+        const {redirectTo,msg} = this.props.user
+        if (redirectTo){
+            return <Redirect to={redirectTo}/>
+        }
+
         return (
             <div>
                 <NavBar>用户登陆</NavBar>
                 <Logo/>
                 <WingBlank>
                     <List>
+                        {msg ? <p className='error-msg'>{msg}</p> : null}
                         <WhiteSpace/>
                         <InputItem placeholder='请输入用户名' onChange={val => this.handleChange('username',val)}>用户名:</InputItem>
                         <WhiteSpace/>
                         <InputItem type='password' placeholder='请输入密码' onChange={val => this.handleChange('password',val)}>密码:</InputItem>
                         <WhiteSpace/>
-                        <Button type='primary' onClick={this.register}>登&nbsp;&nbsp;&nbsp;&nbsp;录</Button>
+                        <Button type='primary' onClick={this.Login}>登&nbsp;&nbsp;&nbsp;&nbsp;录</Button>
                         <WhiteSpace/>
-                        <Button onClick={this.goLogin}>还没有账户</Button>
+                        <Button onClick={this.toRegister}>还没有账户</Button>
                     </List>
                 </WingBlank>
             </div>
@@ -55,4 +62,7 @@ class Login extends Component {
 }
 
 
-export default connect()(Login)
+export default connect(
+    state => ({user:state.user}),
+    {login}
+)(Login)

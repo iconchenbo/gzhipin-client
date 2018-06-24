@@ -13,6 +13,8 @@ import Login from './containers/login/login'
 import Register from './containers/register/register'
 import Main from './containers/main/main'
 
+import './assets/css/index.less'
+
 ReactDOM.render((
     <Provider store = {store}>
         <HashRouter>
@@ -23,6 +25,4 @@ ReactDOM.render((
             </Switch>
         </HashRouter>
     </Provider>
-    ),
-    document.getElementById('root')
-)
+    ), document.getElementById('root'))
