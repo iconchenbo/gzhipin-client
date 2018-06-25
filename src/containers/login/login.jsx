@@ -24,12 +24,12 @@ class Login extends Component {
     }
 
     toRegister = () => {
-        this.props.history.push('/register')
+        this.props.history.replace('/register')
     }
 
     Login = () => {
        const {username,password} = this.state
-        this.props.Login(username,password)
+        this.props.login(username,password)
     }
 
 
